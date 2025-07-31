@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đề kiểm tra Toán lớp 3</title>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    .question { margin-bottom: 20px; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+    .result { font-weight: bold; font-size: 18px; margin-top: 20px; }
+    button { margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Đề kiểm tra Toán lớp 3 (40 phút)</h1>
+
+  <div class="question" id="q1">
+    <p>1. 45 + 36 = ?</p>
+    <input type="number" id="a1">
+    <button onclick="checkAnswer(1, 81)">Nộp câu 1</button>
+    <span id="r1"></span>
+  </div>
+
+  <div class="question" id="q2">
+    <p>2. Số lớn nhất có hai chữ số là:</p>
+    <input type="number" id="a2">
+    <button onclick="checkAnswer(2, 99)">Nộp câu 2</button>
+    <span id="r2"></span>
+  </div>
+
+  <div class="question" id="q3">
+    <p>3. 8 x 7 = ?</p>
+    <input type="number" id="a3">
+    <button onclick="checkAnswer(3, 56)">Nộp câu 3</button>
+    <span id="r3"></span>
+  </div>
+
+  <div class="question" id="q4">
+    <p>4. Một hình chữ nhật có chiều dài 12 cm, chiều rộng 5 cm. Chu vi hình chữ nhật là:</p>
+    <input type="number" id="a4">
+    <button onclick="checkAnswer(4, 34)">Nộp câu 4</button>
+    <span id="r4"></span>
+  </div>
+
+  <div class="question" id="q5">
+    <p>5. 100 trừ đi 47 bằng bao nhiêu?</p>
+    <input type="number" id="a5">
+    <button onclick="checkAnswer(5, 53)">Nộp câu 5</button>
+    <span id="r5"></span>
+  </div>
+
+  <button onclick="submitAll()">Nộp toàn bộ bài kiểm tra</button>
+  <div class="result" id="finalResult"></div>
+
+  <script>
+    let score = 0;
+    let total = 5;
+    let submitted = [false, false, false, false, false];
+
+    function checkAnswer(qNum, correctAns) {
+      const userAns = document.getElementById('a' + qNum).value;
+      const result = document.getElementById('r' + qNum);
+
+      if (submitted[qNum - 1]) return; // đã nộp rồi thì không cho nộp lại
+
+      if (parseInt(userAns) === correctAns) {
+        result.textContent = 'Đúng';
+        result.className = 'correct';
+        score++;
+      } else {
+        result.textContent = 'Sai';
+        result.className = 'incorrect';
+      }
+      submitted[qNum - 1] = true;
+    }
+
+    function submitAll() {
+      let missed = [];
+      for (let i = 1; i <= total; i++) {
+        if (!submitted[i - 1]) {
+          checkAnswer(i, getCorrectAnswer(i));
+        }
+        if (document.getElementById('r' + i).textContent === 'Sai') {
+          missed.push(i);
+        }
+      }
+      const resultDiv = document.getElementById('finalResult');
+      resultDiv.innerHTML = `Bạn được <strong>${score}/${total}</strong> điểm.<br>` +
+                            (missed.length > 0 ? 'Bạn sai câu: ' + missed.join(', ') : 'Tất cả đều đúng. Giỏi lắm!');
+    }
+
+    function getCorrectAnswer(i) {
+      switch(i) {
+        case 1: return 81;
+        case 2: return 99;
+        case 3: return 56;
+        case 4: return 34;
+        case 5: return 53;
+        default: return 0;
+      }
+    }
+  </script>
+</body>
+</html>
